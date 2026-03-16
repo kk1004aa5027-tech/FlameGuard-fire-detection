@@ -16,7 +16,6 @@ from app.api.predict_fire.crud import create_detection_log
 
 
 router = APIRouter()
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 ALLOWED_EXTENSIONS = {"jpg", "jpeg", "png"}
@@ -70,7 +69,8 @@ async def predict_fire(
 
     # load model
     try:
-        model = YOLO("assets/best.pt")  # relative path
+        model = YOLO("C:/FlameGurad/FlameGuard/backend/app/assets/best.pt")  # relative path
+        # 여기 수정 너 주소로 수정. \ /
         logger.info("model loaded successfully.")
     except Exception as e:
         logger.error(f"error occurred while loading model: {str(e)}")
@@ -88,7 +88,8 @@ async def predict_fire(
 
         processed_result = {"file_name": file.filename, "detections": []}
         fire_detected = False  # track fire detection
-
+        smoke_detected = False
+        detected_classes = set()
         # process results: extract class name, confidence, and coordinates for each box
         for box in boxes:
             class_name = model.names[int(box.cls)]
@@ -98,9 +99,15 @@ async def predict_fire(
                 bbox=box.xyxy[0].tolist(),
             )
             processed_result["detections"].append(detection)
+            detected_classes.add(class_name)
 
             if class_name == "fire":
                 fire_detected = True
+                logger.info("Fire detected!")
+            if class_name.lower() == "smoke":
+                smoke_detected = True
+                logger.info("Smoke detected!")
+
 
         # set current time (UTC -> Asia/Seoul)
         utc_now = datetime.now(pytz.UTC)
@@ -110,39 +117,43 @@ async def predict_fire(
         # create log directory
         log_dir = "log"
         os.makedirs(log_dir, exist_ok=True)
+        # 메시지 결정
+        if fire_detected or smoke_detected:
+            # 메시지 결정
+            if fire_detected and smoke_detected:
+                message = "fire and smoke detected"
+            elif fire_detected:
+                message = "fire detected"
+            else:
+                message = "smoke detected"
 
-        if fire_detected:
-            # save result image when fire is detected
+            # 이미지 저장
             log_file_path = os.path.join(log_dir, new_file_name)
             cv2.imwrite(log_file_path, annotated_img)
-
-            # upload to S3 or other external storage and get file key (later)
-            # result_file_key = uploadImageToAWS.usingFilePath(log_file_path)
-            result_file_key = new_file_name  # temporary value
+            print("🔥 저장되는 result_image:", new_file_name)
+            result_file_key = new_file_name
 
             resResult = {
-                "message": "fire detected",
+                "message": message,
                 "file_name": file.filename,
                 "detections": processed_result["detections"],
-                "result_image": result_file_key,  # S3 파일 키로 변경
+                "result_image": result_file_key,
                 "date": current_time,
+                "has_fire": fire_detected,      # ← 추가
+                "has_smoke": smoke_detected     # ← 추가
             }
 
-            # delete result image (later)
-            # if os.path.exists(log_file_path):
-            #     try:
-            #         os.remove(log_file_path)
-            #         logger.info(f"Successfully deleted result file: {log_file_path}")
-            #     except Exception as e:
-            #         logger.error(f"Failed to delete result file: {str(e)}")
         else:
-            resResult = {
+           resResult = {
                 "message": "safe",
                 "file_name": None,
                 "detections": processed_result["detections"],
                 "result_image": None,
                 "date": current_time,
+                "has_fire": False,           # ← 추가
+                "has_smoke": False           # ← 추가
             }
+
 
         # save detection log
         create_detection_log(db=db, detection_data=resResult)

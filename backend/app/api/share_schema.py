@@ -4,15 +4,11 @@ from typing import List, Dict, Any, Optional
 
 # common schema
 class User(BaseModel):
-    id: int
+    user_id: int
     email: str
+    name:str
     password: str
-    count_login: int
-    verified: bool
     role: str
-    plan: str
-    created_at: datetime
-    expired_at: datetime
 
     class Config:
         from_attributes = True
@@ -27,6 +23,7 @@ class DetectionLog(BaseModel):
     message: str
 
     has_fire: bool
+    has_smoke : bool
     created_at: datetime
 
     class Config:

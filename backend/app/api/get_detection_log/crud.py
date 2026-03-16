@@ -15,8 +15,11 @@ def get_detection_logs(
         # has_fire 컬럼을 활용하여 fire 필터링
         if filter == "fire":
             query = query.filter(DetectionLog.has_fire == True)
+        elif filter == "smoke":
+            query = query.filter(DetectionLog.has_smoke == True)  # ← 이렇게 수정!
+
         # 다른 클래스에 대한 필터링이 필요한 경우
-        # JSON 문자열에서 class_name을 검색
+        # JSON 문자열에서 class_name을 검색  
         else:
             query = query.filter(
                 DetectionLog.detections.like(f'%"class_name": "{filter}"%')

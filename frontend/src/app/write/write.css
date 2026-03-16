@@ -1,0 +1,60 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 40px;
+}
+/* write.css */
+.write-container {
+  width: 80%;
+  margin: 2rem auto;
+}
+
+h1 {
+  color: #e74c3c;
+  font-weight: 600;
+  font-size: larger;
+  margin-bottom: 5vh;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 600px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input[type='text'],
+textarea,
+input {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+textarea {
+  resize: vertical;
+  height: 200px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #e74c3c;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #c0392b;
+}

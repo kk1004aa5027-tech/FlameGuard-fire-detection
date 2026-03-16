@@ -6,10 +6,9 @@ from app.api.share_crud import get_user_by_email
 from app.api.create_user.schema import create_user_schema
 from app.api.share_schema import User as user_schema
 
-router = APIRouter()
+router = APIRouter(prefix="/api") 
 
-
-@router.post("/create_user/", response_model=user_schema)
+@router.post("/signup", response_model=user_schema)
 async def create_user(user: create_user_schema, db: Session = Depends(get_db)):
     db_user = get_user_by_email(db, email=user.email)
     if db_user:

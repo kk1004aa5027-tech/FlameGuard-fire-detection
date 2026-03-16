@@ -1,0 +1,110 @@
+/* 메인 컨테이너 */
+.mainboard-container {
+  font-family: 'Arial', sans-serif;
+  background-color: #fefefe;
+  padding: 40px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  color: #2c3e50;
+  position: relative;
+}
+
+/* 제목 */
+.mainboard-container h1 {
+  text-align: center;
+  color: #e74c3c;
+  margin-bottom: 30px;
+  font-weight: 800;
+  font-size: x-large;
+}
+
+/* 로그인 유저 정보 표시 영역 */
+.header-right {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  color: #c0392b;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  color: #c0392b;
+  text-decoration: underline;
+}
+
+/* 알림/게시판 컨테이너 */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* 각 섹션 (알림 / 게시판) */
+.section {
+  border: 2px solid hsl(0, 0%, 80%); /* 테두리 강조 */
+  padding: 20px;
+  border-radius: 12px; /* 둥근 모서리 */
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* 살짝 그림자 */
+  transition: box-shadow 0.2s ease;
+  background-color: #f9f9f9;
+}
+
+.section:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* 호버 시 더 진하게 */
+}
+
+.section-h2 {
+  color: #c0392b;
+  font-weight: 600;
+  font-size: medium;
+  border-bottom: 1px solid #e6e6e6;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+/* 목록 스타일 */
+ul,
+ol {
+  padding-left: 20px;
+  margin: 0;
+}
+
+li {
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+/* 버튼 그룹 */
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+  gap: 10px;
+}
+
+.show-button {
+  background-color: #e74c3c;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+
+.show-button:hover {
+  background-color: #c0392b;
+}
