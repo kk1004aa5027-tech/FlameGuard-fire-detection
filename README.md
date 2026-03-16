@@ -40,6 +40,8 @@ YOLO 객체 탐지 모델을 활용하여 **실시간으로 화재 및 연기를
 ---
 
 ## API 구조
+
+```
 app/
 ├── main.py
 ├── api/
@@ -65,6 +67,7 @@ app/
 │
 │ ├── share_crud.py # 공통 데이터베이스 로직
 │ ├── share_schema.py # 공통 Pydantic 스키마
+```
 
 ---
 
