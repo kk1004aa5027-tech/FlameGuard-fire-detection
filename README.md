@@ -150,8 +150,9 @@ src/
 
 ## 사용 기술
 
-```
+
 ## Frontend
+```
 - Next.js
 - React
 - TypeScript
